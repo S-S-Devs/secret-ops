@@ -52,24 +52,15 @@ function initFormularios() {
         input.style.borderColor = ''; // Restaura el color del borde
       }
     });
-    if (valid) {
-      const nombre = form.elements["name"].value;
-      const correo = form.elements["email"].value;
-      const password = form.elements["password"].value;
-      const birthdate = form.elements["birthdate"].value;
-      const country = form.elements["country"].value;
+}}
 
-      alert('Nombre: ' + nombre + '\n'
-         + 'Correo: ' + correo + '\n'
-         + 'Contraseña: ' + password + '\n'
-         + 'Fecha de Nacimiento: ' + birthdate + '\n'
-         + 'País: ' + country);  
-      document.getElementById("registro").style.display = "none";
-      document.getElementById("secret-ops").style.display = "block";
-    } else {
-      alert('Por favor, complete todos los campos obligatorios.');
-    }
-  }
+function mostrarConfirmacion() {
+  let userName = document.getElementById('username').value;
+  let email = document.getElementById('email').value;
+  let birthdate = document.getElementById('birthdate').value;
+  let country = document.getElementById('country').value;
+  alert(`Usuario: ${userName}\nCorreo: ${email}\nFecha de nacimiento: ${birthdate}\nPaís: ${country}`);
+  volverRegistro();
 }
 
 // Muestra el formulario de login
