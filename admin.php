@@ -7,8 +7,14 @@ if ($_SESSION['user_type'] != 'admin') {
 include 'includes/db_config.php';
 
 function fetch_by_id_or_name($conn, $table, $identifier) {
-    $sql = "SELECT * FROM $table WHERE id = ? OR nombre = ?";
+    $column = ($table === 'usuarios') ? 'username' : 'nombre';
+    $sql = "SELECT * FROM $table WHERE id = ? OR $column = ?";
     $stmt = $conn->prepare($sql);
+
+    if ($stmt === false) {
+        die("Error en la preparación de la consulta: " . $conn->error);
+    }
+
     $stmt->bind_param("is", $identifier, $identifier);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -133,32 +139,30 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['action']) && $_GET['acti
       </div>
 
       <!-- Sección Gestionar Mapas -->
-<!-- Sección Gestionar Mapas -->
-<div id="manage_maps" class="admin-section">
-    <h3>Gestionar Mapas</h3>
-    <form id="add-map-form" method="post" action="admin/manage_maps.php?action=add" enctype="multipart/form-data">
-        <h4>Incluir Nuevo Mapa</h4>
-        <label for="map-name">Nombre del Mapa:</label>
-        <input type="text" id="map-name" name="map_name" required><br>
-        <label for="map-description">Descripción:</label>
-        <textarea id="map-description" name="map_description" required></textarea><br>
-        <label for="map-image">Imagen:</label>
-        <input type="file" id="map-image" name="map_image" required><br>
-        <button type="submit">Incluir Mapa</button>
-    </form>
+      <div id="manage_maps" class="admin-section">
+        <h3>Gestionar Mapas</h3>
+        <form id="add-map-form" method="post" action="admin/manage_maps.php?action=add" enctype="multipart/form-data">
+          <h4>Incluir Nuevo Mapa</h4>
+          <label for="map-name">Nombre del Mapa:</label>
+          <input type="text" id="map-name" name="map_name" required><br>
+          <label for="map-description">Descripción:</label>
+          <textarea id="map-description" name="map_description" required></textarea><br>
+          <label for="map-image">Imagen:</label>
+          <input type="file" id="map-image" name="map_image" required><br>
+          <button type="submit">Incluir Mapa</button>
+        </form>
 
-    <form id="query-map-form" method="get" action="admin.php">
-        <h4>Buscar Mapa</h4>
-        <input type="hidden" name="action" value="fetch">
-        <input type="hidden" name="type" value="map">
-        <label for="identifier">ID o Nombre del Mapa:</label>
-        <input type="text" id="identifier" name="identifier" required><br>
-        <button type="submit">Consultar Mapa</button>
-    </form>
-
-    <?php if ($modify_map): ?>
-    <div id="modify-map-details">
-        <form id="modify-map-form" method="post" action="admin/manage_maps.php?action=modify" enctype="multipart/form-data">
+        <form id="query-map-form" method="get" action="admin.php">
+          <h4>Buscar Mapa</h4>
+          <input type="hidden" name="action" value="fetch">
+          <input type="hidden" name="type" value="map">
+          <label for="identifier">ID o Nombre del Mapa:</label>
+          <input type="text" id="identifier" name="identifier" required><br>
+          <button type="submit">Consultar Mapa</button>
+        </form>
+        <?php if ($modify_map): ?>
+        <div id="modify-map-details">
+          <form id="modify-map-form" method="post" action="admin/manage_maps.php?action=modify" enctype="multipart/form-data">
             <h4>Modificar Mapa</h4>
             <input type="hidden" id="modify-map-id" name="map_id" value="<?php echo $modify_map['id']; ?>">
             <label for="modify-map-name">Nombre del Mapa:</label>
@@ -168,15 +172,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['action']) && $_GET['acti
             <label for="modify-map-image">Imagen:</label>
             <input type="file" id="modify-map-image" name="map_image"><br>
             <button type="submit">Modificar Mapa</button>
-        </form>
-
-        <form id="delete-map-form" method="post" action="admin/manage_maps.php?action=delete">
+          </form>
+          <form id="delete-map-form" method="post" action="admin/manage_maps.php?action=delete">
             <input type="hidden" id="delete-map-id" name="map_id" value="<?php echo $modify_map['id']; ?>">
             <button type="submit">Eliminar Mapa</button>
-        </form>
-    </div>
-    <?php endif; ?>
-</div>
+          </form>
+        </div>
+        <?php endif; ?>
+      </div>
 
       <!-- Sección Gestionar Armas -->
       <div id="manage_weapons" class="admin-section">
