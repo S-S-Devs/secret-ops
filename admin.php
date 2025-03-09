@@ -269,6 +269,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['action']) && $_GET['acti
               echo "No hay armas registradas.";
           }
         ?>
+        <form action="generate_pdf.php" method="post">
+          <button type="submit">Generar PDF</button>
+        </form>
       </div>
     </div>
   </div>
