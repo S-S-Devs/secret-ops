@@ -1,0 +1,132 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+  padding-top: 20px;
+}
+
+.admin-navbar {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-navbar .admin-brand {
+  height: 50px;
+}
+
+.admin-navbar .admin-menu {
+  list-style: none;
+  display: flex;
+}
+
+.admin-navbar .admin-menu li {
+  margin: 0 10px;
+}
+
+.admin-navbar .admin-menu li a {
+  color: #fff;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.admin-navbar .admin-menu li a:hover {
+  background-color: #575757;
+}
+
+.admin-navbar .admin-buttons button {
+  background-color: #ff3333;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.admin-navbar .admin-buttons button a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.admin-navbar .admin-buttons button:hover {
+  background-color: #cc0000;
+}
+
+.admin-section {
+  display: none;
+  margin-top: 20px;
+}
+
+.admin-section h3 {
+  color: #333;
+}
+
+.admin-section form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.admin-section form h4 {
+  margin-top: 0;
+}
+
+.admin-section form label {
+  display: block;
+  margin-top: 10px;
+}
+
+.admin-section form input,
+.admin-section form select,
+.admin-section form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.admin-section form button {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+}
+
+.admin-section form button:hover {
+  background-color: #575757;
+}
+
+.admin-section table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.admin-section table, th, td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+.admin-section table th {
+  background-color: #f4f4f4;
+}
