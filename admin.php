@@ -6,6 +6,22 @@ if ($_SESSION['user_type'] != 'admin') {
 }
 include 'includes/db_config.php';
 
+// Inicializar variables
+$modify_user = null;
+$modify_map = null;
+$modify_arm = null;
+
+// Obtener datos para las gráficas
+$usuarios_query = "SELECT COUNT(*) as count FROM usuarios WHERE role = 'user'";
+$admins_query = "SELECT COUNT(*) as count FROM usuarios WHERE role = 'admin'";
+$mapas_query = "SELECT COUNT(*) as count FROM mapas";
+$armas_query = "SELECT COUNT(*) as count FROM armas";
+
+$usuarios_count = $conn->query($usuarios_query)->fetch_assoc()['count'];
+$admins_count = $conn->query($admins_query)->fetch_assoc()['count'];
+$mapas_count = $conn->query($mapas_query)->fetch_assoc()['count'];
+$armas_count = $conn->query($armas_query)->fetch_assoc()['count'];
+
 function fetch_by_id_or_name($conn, $table, $identifier) {
     $column = ($table === 'usuarios') ? 'username' : 'nombre';
     $sql = "SELECT * FROM $table WHERE id = ? OR $column = ?";
@@ -20,10 +36,6 @@ function fetch_by_id_or_name($conn, $table, $identifier) {
     $result = $stmt->get_result();
     return $result->fetch_assoc();
 }
-
-$modify_user = null;
-$modify_map = null;
-$modify_arm = null;
 
 if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['action']) && $_GET['action'] == 'fetch') {
     $identifier = $_GET['identifier'];
@@ -53,6 +65,22 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['action']) && $_GET['acti
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Panel de Administración - Secret Ops</title>
   <link rel="stylesheet" href="css/admin_styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/jquery.jqplot.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/jquery.jqplot.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqPlot/1.0.9/plugins/jqplot.pieRenderer.min.js"></script>
+  <style>
+    .charts-container {
+        display: flex;
+        justify-content: space-around;
+    }
+    .chart {
+        width: 45%;
+    }
+    .admin-section {
+        display: none;
+    }
+  </style>
 </head>
 <body>
   <div id="admin-panel">
@@ -60,7 +88,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['action']) && $_GET['acti
       <nav class="admin-navbar">
         <img src="./img/download.png" alt="Ops Logo" class="admin-brand">
         <ul class="admin-menu">
-          <li><a href="admin.php">Inicio</a></li>
           <li><a href="javascript:void(0);" onclick="showSection('manage_users')">Gestionar Usuarios</a></li>
           <li><a href="javascript:void(0);" onclick="showSection('manage_maps')">Gestionar Mapas</a></li>
           <li><a href="javascript:void(0);" onclick="showSection('manage_weapons')">Gestionar Armas</a></li>
@@ -74,6 +101,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['action']) && $_GET['acti
 
       <h2>Panel de Administración</h2>
       <p>Bienvenido, <?php echo $_SESSION['username']; ?>.</p>
+
+      <!-- Gráficas -->
+      <div id="charts" class="charts-container">
+        <div id="user-chart" class="chart"></div>
+        <div id="content-chart" class="chart"></div>
+      </div>
 
       <!-- Sección Gestionar Usuarios -->
       <div id="manage_users" class="admin-section">
@@ -277,18 +310,52 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['action']) && $_GET['acti
   </div>
   
   <script>
-    function showSection(sectionId) {
-        var sections = document.getElementsByClassName('admin-section');
-        for (var i = 0; i < sections.length; i++) {
-            sections[i].style.display = 'none';
-        }
-        document.getElementById(sectionId).style.display = 'block';
-    }
+  function showSection(sectionId) {
+      var sections = document.getElementsByClassName('admin-section');
+      for (var i = 0; i < sections.length; i++) {
+          sections[i].style.display = 'none';
+      }
+      document.getElementById(sectionId).style.display = 'block';
+  }
 
-    // Mostrar la sección de inicio al cargar la página
-    window.onload = function() {
-        showSection('manage_users');
-    };
-  </script>
+  // Mostrar la sección de inicio al cargar la página
+  window.onload = function() {
+      showSection('manage_users');
+  };
+
+  $(document).ready(function(){
+      var userData = [
+          ['Usuarios', <?php echo $usuarios_count; ?>],
+          ['Administradores', <?php echo $admins_count; ?>]
+      ];
+
+      var contentData = [
+          ['Mapas', <?php echo $mapas_count; ?>],
+          ['Armas', <?php echo $armas_count; ?>]
+      ];
+
+      $.jqplot('user-chart', [userData], {
+          seriesColors: ['#FFF000', '#0EF000'], // Colores para la gráfica de usuarios
+          seriesDefaults: {
+              renderer: $.jqplot.PieRenderer,
+              rendererOptions: {
+                  showDataLabels: true
+              }
+          },
+          legend: { show:true, location: 'e' }
+      });
+
+      $.jqplot('content-chart', [contentData], {
+          seriesColors: ['#600080', '#00FFFF'], // Colores para la gráfica de contenido
+          seriesDefaults: {
+              renderer: $.jqplot.PieRenderer,
+              rendererOptions: {
+                  showDataLabels: true
+              }
+          },
+          legend: { show:true, location: 'e' }
+      });
+  });
+</script>
 </body>
 </html>
