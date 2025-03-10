@@ -31,6 +31,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registro - Secret Ops</title>
   <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+    $(function() {
+        $("#birthdate").datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "-100:+0",
+            maxDate: "+0d"
+        });
+    });
+  </script>
 </head>
 <body>
   <div id="registro">
@@ -46,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="password" id="password" name="password" required><br>
 
         <label for="birthdate">Fecha de Nacimiento:</label>
-        <input type="date" id="birthdate" name="birthdate" required><br>
+        <input type="text" id="birthdate" name="birthdate" required><br>
 
         <label for="country">País:</label>
         <select id="country" name="country" required>

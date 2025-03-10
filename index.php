@@ -15,6 +15,8 @@ session_start();
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
   <!--FONT AWESOME-->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+  <!--JQUERY UI-->
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <!--ESTILOS-->
   <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -24,11 +26,9 @@ session_start();
       <nav class="navbar">
         <img src="img/download.png" alt="Ops Logo" class="nav-brand">
         <ul class="nav-menu">
-          <li><a href="/index.php#inicio">Inicio</a></li>
-          <li><a href="/index.php#mapas">Mapas</a></li>
-          <li><a href="/index.php#movilidad">Movilidad</a></li>
-          <li><a href="/index.php#clases_y_armas">Clases y Armas</a></li>
-          <li><a href="/index.php#modo_zombies">Modo Zombies</a></li>
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#mapas">Mapas</a></li>
+          <li><a href="#armas">Armas</a></li>
         </ul>
         <?php if(isset($_SESSION['username'])): ?>
           <div class="nav-buttons">
@@ -74,8 +74,8 @@ session_start();
         ?>
       </div>
 
-      <h2 class="titulo-seccion">Armas y clases</h2>
-      <div class="armas" id="clases_y_armas">
+      <h2 class="titulo-seccion">Armas</h2>
+      <div class="armas" id="armas">
         <?php
         // Conexión a la base de datos y consulta de las armas
         $sql = "SELECT nombre, descripcion, imagen FROM armas";
@@ -102,6 +102,25 @@ session_start();
         </div>
       </section>
 
+      <!-- Sección de Preguntas Frecuentes -->
+      <h2 class="titulo-seccion">Preguntas Frecuentes</h2>
+      <div id="faq">
+        <div id="accordion">
+          <h3>¿Qué es Black Ops 6?</h3>
+          <div>
+            <p>Black Ops 6 es el último lanzamiento de la popular serie de juegos Call of Duty. Incluye nuevos mapas, modos de juego y características emocionantes.</p>
+          </div>
+          <h3>¿Cuáles son los requisitos del sistema para Black Ops 6?</h3>
+          <div>
+            <p>Para jugar Black Ops 6, necesitas un sistema con al menos 8 GB de RAM, una tarjeta gráfica compatible con DirectX 12 y una CPU de al menos 3.5 GHz.</p>
+          </div>
+          <h3>¿Cómo puedo desbloquear nuevas armas?</h3>
+          <div>
+            <p>Puedes desbloquear nuevas armas completando misiones y desafíos en el juego. También puedes encontrarlas en cajas de suministros.</p>
+          </div>
+        </div>
+      </div>
+
       <footer>
         <div class="footer-container">
           <div class="footer-section">
@@ -113,9 +132,8 @@ session_start();
             <ul>
               <li><a href="#inicio">Inicio</a></li>
               <li><a href="#mapas">Mapas</a></li>
-              <li><a href="#movilidad">Movilidad</a></li>
-              <li><a href="#clases_y_armas">Clases y Armas</a></li>
-              <li><a href="#modo_zombies">Modo Zombies</a></li>
+              <li><a href="#armas">Armas</a></li>
+              <li><a href="#faq">Preguntas Frecuentes</a></li>
             </ul>
           </div>
           <div class="footer-section">
@@ -140,5 +158,12 @@ session_start();
   <script src="https://unpkg.com/scrollreveal"></script>
   <script src="js/main.js"></script>
   <script src="js/scripts.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+    $(function() {
+        $("#accordion").accordion();
+    });
+  </script>
 </body>
 </html>
