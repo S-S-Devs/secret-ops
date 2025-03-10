@@ -1,6 +1,6 @@
 <?php
 class DatabaseConnection {
-    public $conn;  // Declarada como pública para evitar el aviso de Intelephense
+    public $conn;
     private $maxRetries = 3;
     
     public function __construct() {

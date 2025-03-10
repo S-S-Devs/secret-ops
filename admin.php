@@ -6,12 +6,10 @@ if ($_SESSION['user_type'] != 'admin') {
 }
 include 'includes/db_config.php';
 
-// Inicializar variables
 $modify_user = null;
 $modify_map = null;
 $modify_arm = null;
 
-// Obtener datos para las gráficas
 $usuarios_query = "SELECT COUNT(*) as count FROM usuarios WHERE role = 'user'";
 $admins_query = "SELECT COUNT(*) as count FROM usuarios WHERE role = 'admin'";
 $mapas_query = "SELECT COUNT(*) as count FROM mapas";
@@ -335,7 +333,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['action']) && $_GET['acti
       ];
 
       $.jqplot('user-chart', [userData], {
-          seriesColors: ['#FFF000', '#0EF000'], // Colores para la gráfica de usuarios
+          seriesColors: ['#FFF000', '#0EF000'],
           seriesDefaults: {
               renderer: $.jqplot.PieRenderer,
               rendererOptions: {
@@ -346,7 +344,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['action']) && $_GET['acti
       });
 
       $.jqplot('content-chart', [contentData], {
-          seriesColors: ['#600080', '#00FFFF'], // Colores para la gráfica de contenido
+          seriesColors: ['#600080', '#00FFFF'],
           seriesDefaults: {
               renderer: $.jqplot.PieRenderer,
               rendererOptions: {
